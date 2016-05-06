@@ -3,6 +3,15 @@
 Forked from https://github.com/kien/rainbow_parentheses.vim since that now
 appears to be unmaintained.
 
+### Installation 
+
+Using [pathogen.vim](https://github.com/tpope/vim-pathogen):
+
+```
+cd ~/.vim/bundle
+git clone git://github.com/eapache/rainbow_parentheses.vim.git
+```
+
 ### Options:
 
 The colours used; the outermost pair is coloured with the last colour in the
@@ -54,6 +63,8 @@ let g:bold_parentheses = 1      " Default on
 ```
 
 ### Always On:
+
+Add the following to your `~/.vimrc` to always use Rainbow Parenthesis
 
 ```vim
 au VimEnter * RainbowParenthesesToggle
