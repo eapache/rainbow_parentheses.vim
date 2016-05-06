@@ -5,7 +5,7 @@ appears to be unmaintained.
 
 ### Installation 
 
-Using [pathogen.vim]('https://github.com/tpope/vim-pathogen'):
+Using [pathogen.vim](https://github.com/tpope/vim-pathogen):
 
 ```
 cd ~/.vim/bundle
