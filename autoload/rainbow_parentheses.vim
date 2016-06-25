@@ -58,7 +58,6 @@ func! rainbow_parentheses#toggle()
 		cal rainbow_parentheses#load(0)
 		cal rainbow_parentheses#load(1)
 		cal rainbow_parentheses#load(2)
-		cal rainbow_parentheses#load(3)
 	endif
 	let afunc = exists('s:active') && s:active ? 'clear' : 'activate'
 	cal call('rainbow_parentheses#'.afunc, [])
@@ -69,7 +68,6 @@ func! rainbow_parentheses#toggleall()
 		cal rainbow_parentheses#load(0)
 		cal rainbow_parentheses#load(1)
 		cal rainbow_parentheses#load(2)
-		cal rainbow_parentheses#load(3)
 	endif
 	if exists('s:active') && s:active
 		cal rainbow_parentheses#clear()
