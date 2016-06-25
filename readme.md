@@ -72,3 +72,6 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 ```
+
+Or just use `RainbowParenthesesToggleAll`. You may need to put `syntax on` in
+your `.vimrc` *before* you enable rainbow parentheses.
