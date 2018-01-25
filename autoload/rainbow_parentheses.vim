@@ -39,19 +39,17 @@ endfunc
 cal s:extend()
 
 func! rainbow_parentheses#activate()
-	let [id, s:active] = [s:max_depth, 1]
+	let [id, s:active] = [1, 1]
 	let bold = s:bold ? ' cterm=bold gui=bold' : ''
 	for [ctermfg, guifg] in s:pairs
 		exe 'hi default level'.id.'c ctermfg='.ctermfg.' guifg='.guifg.bold
-		let id -= 1
+		let id += 1
 	endfor
 endfunc
 
 func! rainbow_parentheses#clear()
-	let id = s:max_depth
 	for each in range(1, s:max)
-		exe 'hi clear level'.id.'c'
-		let id -= 1
+		exe 'hi clear level'.each.'c'
 	endfor
 	let s:active = 0
 endfunc
@@ -90,12 +88,12 @@ func! rainbow_parentheses#load(...)
 		let b:loaded = [0,0,0,0]
 	endif
 	let b:loaded[a:1] = s:loadtgl && b:loaded[a:1] ? 0 : 1
-	for each in range(1, s:max_depth)
+	for each in reverse(range(1, s:max_depth))
 		let region = 'level'. each .(b:loaded[a:1] ? '' : 'none')
 		let grp = b:loaded[a:1] ? 'level'.each.'c' : 'Normal'
 		let cmd = 'sy region %s matchgroup=%s start=/%s/ end=/%s/ contains=TOP,%s,NoInParens fold'
 		exe printf(cmd, region, grp, type[0], type[1], join(alllvls, ','))
-		cal remove(alllvls, 0)
+		cal remove(alllvls, -1)
 	endfor
 endfunc
 
