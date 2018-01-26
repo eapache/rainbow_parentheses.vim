@@ -1,7 +1,10 @@
 # Better Rainbow Parentheses
 
-Forked from https://github.com/kien/rainbow_parentheses.vim since that now
-appears to be unmaintained.
+This repo is mostly unmaintained - I switched to using
+https://github.com/luochen1990/rainbow instead and generally suggest you do to.
+
+Originally forked from https://github.com/kien/rainbow_parentheses.vim since
+that was really unmaintained and needed some fixes.
 
 ### Installation 
 
