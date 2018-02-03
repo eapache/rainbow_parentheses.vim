@@ -4,7 +4,7 @@
 "               2011-10-12: Use less code.  Leave room for deeper levels.
 "==============================================================================
 
-let s:rpairs = [
+let s:pairs = [
 	\ ['red',         'RoyalBlue3'],
 	\ ['brown',       'SeaGreen3'],
 	\ ['blue',        'DarkOrchid3'],
@@ -21,8 +21,9 @@ let s:rpairs = [
 	\ ['darkcyan',    'DarkOrchid3'],
 	\ ['red',         'firebrick3'],
 	\ ]
-let s:pairs = exists('g:rbpt_colorpairs') ? reverse(g:rbpt_colorpairs) : reverse(s:rpairs)
-let s:max = exists('g:rbpt_max') ? g:rbpt_max : max([len(s:pairs), 15])
+let s:pairs = exists('g:rbpt_colorpairs') ? g:rbpt_colorpairs : s:pairs
+let s:max_depth = max([len(s:pairs), 15])
+let s:max = exists('g:rbpt_max') ? g:rbpt_max : s:max_depth
 let s:loadtgl = exists('g:rbpt_loadcmd_toggle') ? g:rbpt_loadcmd_toggle : 0
 let s:types = [['(',')'],['\[','\]'],['{','}'],['<','>']]
 let s:bold = exists('g:bold_parentheses') ? g:bold_parentheses : 1
@@ -82,17 +83,17 @@ cal s:cluster()
 
 func! rainbow_parentheses#load(...)
 	let [level, grp, type] = ['', '', s:types[a:1]]
-	let alllvls = map(range(1, s:max), '"level".v:val')
+	let alllvls = map(range(1, s:max_depth), '"level".v:val')
 	if !exists('b:loaded')
 		let b:loaded = [0,0,0,0]
 	endif
 	let b:loaded[a:1] = s:loadtgl && b:loaded[a:1] ? 0 : 1
-	for each in range(1, s:max)
+	for each in reverse(range(1, s:max_depth))
 		let region = 'level'. each .(b:loaded[a:1] ? '' : 'none')
 		let grp = b:loaded[a:1] ? 'level'.each.'c' : 'Normal'
 		let cmd = 'sy region %s matchgroup=%s start=/%s/ end=/%s/ contains=TOP,%s,NoInParens fold'
 		exe printf(cmd, region, grp, type[0], type[1], join(alllvls, ','))
-		cal remove(alllvls, 0)
+		cal remove(alllvls, -1)
 	endfor
 endfunc
 
