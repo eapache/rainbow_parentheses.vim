@@ -1,7 +1,7 @@
 # Better Rainbow Parentheses
 
 This repo is mostly unmaintained - I switched to using
-https://github.com/luochen1990/rainbow instead and generally suggest you do to.
+https://github.com/luochen1990/rainbow instead and generally suggest you do too.
 
 Originally forked from https://github.com/kien/rainbow_parentheses.vim since
 that was really unmaintained and needed some fixes.
