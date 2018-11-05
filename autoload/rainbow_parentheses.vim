@@ -23,32 +23,50 @@ let s:pairs = [
 	\ ]
 let s:pairs = exists('g:rbpt_colorpairs') ? g:rbpt_colorpairs : s:pairs
 let s:max_depth = max([len(s:pairs), 15])
-let s:max = exists('g:rbpt_max') ? g:rbpt_max : s:max_depth
 let s:loadtgl = exists('g:rbpt_loadcmd_toggle') ? g:rbpt_loadcmd_toggle : 0
 let s:types = [['(',')'],['\[','\]'],['{','}'],['<','>']]
 let s:bold = exists('g:bold_parentheses') ? g:bold_parentheses : 1
 
-func! s:extend()
-	if s:max > len(s:pairs)
-		cal extend(s:pairs, s:pairs)
-		cal s:extend()
-	elseif s:max < len(s:pairs)
-		cal remove(s:pairs, s:max, -1)
+func! s:extend(pairs, max)
+	if a:max > len(a:pairs)
+		cal extend(a:pairs, s:pairs)
+		cal s:extend(a:pairs, a:max)
+	elseif a:max < len(a:pairs)
+		cal remove(a:pairs, a:max, -1)
 	endif
 endfunc
-cal s:extend()
+
+func! s:bufferMax()
+	let max = s:max_depth
+	if exists('b:rbpt_max')
+		let max = b:rbpt_max
+	elseif exists('g:rbpt_max')
+		let max = g:rbpt_max
+	endif
+
+	return max
+endfunc
+
+func! s:bufferPairs()
+	let pairs = []
+	let max = s:bufferMax()
+
+	cal s:extend(pairs, max)
+
+	return pairs
+endfunc
 
 func! rainbow_parentheses#activate()
 	let [id, s:active] = [1, 1]
 	let bold = s:bold ? ' cterm=bold gui=bold' : ''
-	for [ctermfg, guifg] in s:pairs
+	for [ctermfg, guifg] in s:bufferPairs()
 		exe 'hi default level'.id.'c ctermfg='.ctermfg.' guifg='.guifg.bold
 		let id += 1
 	endfor
 endfunc
 
 func! rainbow_parentheses#clear()
-	for each in range(1, s:max)
+	for each in range(1, s:bufferMax())
 		exe 'hi clear level'.each.'c'
 	endfor
 	let s:active = 0
@@ -76,7 +94,7 @@ func! rainbow_parentheses#toggleall()
 endfunc
 
 func! s:cluster()
-	let levels = join(map(range(1, s:max), '"level".v:val'), ',')
+	let levels = join(map(range(1, s:max_depth), '"level".v:val'), ',')
 	exe 'sy cluster rainbow_parentheses contains=@TOP'.levels.',NoInParens'
 endfunc
 cal s:cluster()
