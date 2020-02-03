@@ -106,7 +106,7 @@ func! rainbow_parentheses#load(...)
 		let b:loaded = [0,0,0,0]
 	endif
 	let b:loaded[a:1] = s:loadtgl && b:loaded[a:1] ? 0 : 1
-	for each in reverse(range(1, s:max_depth))
+	for each in range(s:max_depth, 1, -1)
 		let region = 'level'. each .(b:loaded[a:1] ? '' : 'none')
 		let grp = b:loaded[a:1] ? 'level'.each.'c' : 'Normal'
 		let cmd = 'sy region %s matchgroup=%s start=/%s/ end=/%s/ contains=TOP,%s,NoInParens fold'
